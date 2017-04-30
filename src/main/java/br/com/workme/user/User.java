@@ -68,10 +68,10 @@ public class User {
 
 	private String bairro;
 
-	@Column(nullable = false)
+	@Column(name = "cidade")
 	private String cidade;
 
-	@Column(nullable = false)
+	@Column(name = "estado")
 	private String estado;
 
 	private String tipo;

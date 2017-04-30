@@ -28,7 +28,7 @@ public class Servico {
 
 	private String descricao;
 
-	private String tipo;
+	private int ativo;
 
 	public Long getCdServico() {
 		return cdServico;
@@ -70,11 +70,11 @@ public class Servico {
 		this.descricao = descricao;
 	}
 
-	public String getTipo() {
-		return tipo;
+	public int getAtivo() {
+		return ativo;
 	}
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+	public void setAtivo(int ativo) {
+		this.ativo = ativo;
 	}
 }

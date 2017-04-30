@@ -1,9 +1,11 @@
 package br.com.workme.servico;
 
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,10 +23,18 @@ public class ServicoController {
 	@Autowired
 	private UserService userService;
 
+	@RequestMapping(value = "/salvar", method = POST)
+	public Servico salvar(@RequestBody Servico servico) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		servico.setUser(userService.findUserByEmail(auth.getName()));
+		servico.setAtivo(1);
+		return servicoRepository.save(servico);
+	}
+
 	@RequestMapping("/listar")
-	public Servico listar() {
+	public Iterable<Servico> listar() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
-		return servicoRepository.findByUser(user);
+		return servicoRepository.findByUserAndAtivo(user, 1);
 	}
 }

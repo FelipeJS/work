@@ -8,9 +8,21 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script>
+	angular.module("work", []);
+	
+	angular.module("work").controller("servicoCtrl", function ($scope, $http) {
+		$scope.salvar = function (servico) {
+			$http.post("http://localhost:6789/servico/salvar", servico).success(function (resultadoDoResponse) {
+				$scope.servico = resultadoDoResponse;
+			});
+		};		
+	});
+</script>
 </head>
 
-<body>
+<body ng-app="work" ng-controller="servicoCtrl">
 	<div class="container">
 	
 		<form th:action="@{/logout}" method="get">
@@ -24,6 +36,15 @@
 					<span th:utext="${userName}"></span>
 				</div>
 				<div class="panel-body">
+					<form>
+						<p>Name : <input type="text" ng-model="servico.nome"></p>
+						<p>Categoria : <input type="text" ng-model="servico.categoria"></p>
+						<p>descricao : <input type="text" ng-model="servico.descricao"></p>
+						<p>ativo : <input type="text" ng-model="servico.ativo"></p>
+						<p>codigo : <input type="text" ng-model="servico.cdServico"></p>
+  						<input type="submit" value="Salvar" ng-click="salvar(servico)">
+					</form>
+					
 					<img th:src="@{/images/beer.jpg}" class="img-responsive center-block" width="400" height="400" alt="Beer" /> 
 				</div>
 				<p class="admin-message-text text-center" th:utext="${adminMessage}"></p>
